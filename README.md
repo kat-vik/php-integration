@@ -83,7 +83,7 @@
 
 **New!** The WebPay class now includes an entrypoint to the Svea Checkout.
 
-If you want a lightweight installation with only the checkout, you can also use the [php-checkout-integration library instead](https://github.com/sveawebpay/php-checkout-integration/blob/master/README.md)
+If you want a lightweight installation with only the checkout, you can also use the [php-checkout-integration library](https://github.com/sveawebpay/php-checkout-integration/blob/master/README.md)
 Read more in the section [6.7 WebPay::checkout()](#i6-7) and if you wish to see more detailed data structures, please see the documentation in the [*connection library*](https://github.com/sveawebpay/php-checkout-integration).
 
 The WebPay class methods contains the functions needed to create orders and perform payment requests using Svea payment methods. It contains methods to define order contents, send order requests, as well as support methods needed to do this.
@@ -97,7 +97,7 @@ In general, a request using the Svea API starts out with you creating an instanc
 The WebPay API consists of the entrypoint methods in the WebPay and WebPayAdmin classes. These instantiate builder classes in the Svea namespace. Given i.e. an order builder instance, you then use method calls to populate it with order rows and customer identifiction data. You then choose the payment method and get a request class in return. You then send the request and get a service response from Svea in return. In general, the request classes will validate that all required builder class attributes are present, and if not will throw an exception stating what methods are missing for the request in question.
 
 ### Synchronous and asynchronous requests
-Most service requests are synchronous and return a response immediately. For asynchronous hosted service payment requests, the customer will be redirected to i.e. the selected card payment provider or bank, and you will get a callback to a return url, where where you receive and parse the response.
+Most service requests are synchronous and return a response immediately. For asynchronous hosted service payment requests, the customer will be redirected to i.e. the selected card payment provider or bank, and you will get a callback to a return url, where you receive and parse the response.
 
 ### Namespaces
 The package makes use of PHP namespaces, grouping most classes under the namespace Svea. The entrypoint classes WebPay, WebPayAdmin and associated support classes are excluded from the Svea namespace. The underlying internal services and methods are contained in the Svea sub-namespaces WebService, HostedService and AdminService.
@@ -390,7 +390,7 @@ The service response received is sent as an XML message, use the SveaResponse re
 [Back to top](#index)
 
 ## 4. Payment method reference <a name="i4"></a>
-Select payment method to use with the CreateOrderBuilder class useXX() methods, which return an instance of the appropriate payment request class.
+Select payment method to use with the CreateOrderBuilder class useXX() methods, which returns an instance of the appropriate payment request class.
 
 ### 4.1 Svea Invoice payment  <a name="i4-1"></a>
 Select ->useInvoicePayment() to perform an invoice payment.
@@ -510,7 +510,7 @@ $form = $order
 ### 4.5 Using the Svea PayPage   <a name="i4-5"></a>
 
 #### 4.5.1 Bypassing payment method selection
-Go direct to specified payment method, bypassing the *PayPage* completely. By specifying payment method you eliminate one step in the payment process.
+Directly go to specified payment method, bypassing the *PayPage* completely. By specifying payment method you eliminate one step in the payment process.
 
 You can use `WebPay::listPaymentMethods()` to get the various payment methods available.
 
@@ -826,7 +826,7 @@ echo $response['Gui']['Snippet']
 ```
 
 #### 4.6.6 Callbacks
-Callbacks are sent multiple times during the order flow, the callbacks are sent as POST to the pushUri with the checkout order id.
+Callbacks are sent multiple times during the order flow, as POST to the pushUri with the checkout order id.
 eg. http://localhost:63473/shop/orderCallback/{checkout.order.uri}
 
 When your server receives a callback it's a notification that something has changed in the order. Make a GetOrder request to get the latest order data.
@@ -1002,7 +1002,7 @@ Note: when using WebPayAdmin functions with order rows, you may only use WebPayI
 The WebPayItem::orderRow() entrypoint method is used to specify order items like products and services.
 It is required to have a minimum of one order row in an order.
 
-Specify the item price using precisely two of these methods in order to specify the item price and tax rate:
+Specify the item price and tax rate by using precisely two of these methods:
 setAmountExVat(), setAmountIncVat() and setVatPercent(). We recommend using setAmountExVat() and setVatPercentage().
 
 If you use setAmountIncVat(), note that this may introduce a cumulative rounding error when ordering large
@@ -1030,7 +1030,7 @@ $orderrow = WebPayItem::orderRow()
 The WebPayItem::shippingFee() entrypoint method is used to specify order shipping fee rows.
 It is not required to have a shipping fee row in an order.
 
-Specify the item price using precisely two of these methods in order to specify the item price and tax rate:
+Specify the item price and tax rate by using precisely two of these methods:
 setAmountExVat(), setAmountIncVat() and setVatPercent(). We recommend using setAmountExVat() and setVatPercentage().
 
 ```php
@@ -1054,7 +1054,7 @@ $shippingFee = WebPayItem::shippingFee()
 The WebPayItem::invoiceFee() entrypoint method is used to specify fees associated with a payment method (i.e. invoice fee).
 It is not required to have an invoice fee row in an order.
 
-Specify the item price using precisely two of these methods in order to specify the item price and tax rate:
+Specify the item price and tax rate by using precisely two of these methods:
 setAmountExVat(), setAmountIncVat() and setVatPercent(). We recommend using setAmountExVat() and setVatPercentage().
 
 ```php
@@ -1081,8 +1081,6 @@ This will ensure that the correct discount vat is applied to the order.
 If there are several vat rates present in the order, the discount will be split proportionally across the order row vat
 rates. For examples, including the resulting discount rows, see the test suite file UnitTest/InvoicePaymentTest.php.
 
-Otherwise, it is required to use at least two of the functions setAmountExVat(), setAmountIncVat() and setVatPercent().
-If two of these three attributes are specified, we honour the amount indicated and the given discount tax rate.
 
 ```php
 <?php
@@ -1153,7 +1151,7 @@ $individual = WebPayItem::individualCustomer()
 ### 5.8 WebPayItem::companyCustomer() <a name="i5-8"></a>
 Use WebPayItem::companyCustomer() to add individual customer information to an order.
 
-Note that "required" below as a requirement only when using the invoice or payment plan payment methods, and that the required attributes vary between countries.
+Note that "required" below is only a requirement when using the invoice or payment plan payment methods, and that the required attributes vary between countries.
 
 (For card and direct bank orders, adding customer information to the order is optional, unless you're using getPaymentUrl() to set up a prepared payment.)
 
@@ -1413,7 +1411,7 @@ Example (cont. from 6.2.3.2):
 
 ### 6.3 WebPay::getAddresses() <a name="i6-3"></a>
 
-The WebPay::getAddresses() entrypoint is used to fetch a list validated addresses associated with a given customer identity. This list can in turn be used to i.e. verify that an order delivery address matches the invoice address used by Svea for invoice and payment plan orders. Only applicable for SE, NO and DK customers. Note that in Norway, company customers only are supported.
+The WebPay::getAddresses() entrypoint is used to fetch a list validated addresses associated with a given customer identity. This list can in turn be used to i.e. verify that an order delivery address matches the invoice address used by Svea for invoice and payment plan orders. Only applicable for SE, NO and DK customers. Note that in Norway, only company customers are supported.
 
 Get an request class instance using the WebPay::getAddresses entrypoint, then provide more information about the transaction and send the request using the
 request class methods:
@@ -1694,7 +1692,7 @@ $response = WebPayAdmin::queryTaskInfo($testConfig)
 The WebPayAdmin::cancelOrder() entrypoint method is used to cancel an order with Svea,
 that has not yet been delivered (invoice, payment plan) or confirmed (card).
 
-Supports Invoice, Payment Plan, Card orders and also orders made in the checkout using those payment methods. 
+Supports Invoice, Payment Plan, Card orders and orders made in the checkout using those payment methods. 
 
 Direct Bank orders need to be credited instead, see [7.5 WebPayAdmin::creditOrderRows()](#i7-5).
 
