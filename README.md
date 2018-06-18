@@ -1402,7 +1402,7 @@ To credit an order use the setCreditInvoice(invoiceId) method when delivering an
 
 When crediting a delivered order, you are really crediting an invoice. This means that if you i.e. partially delivered an order, and then need to credit the entire order, you will need to make several credit requests, as a credit invoice amount can't exceed the individual invoice total amount.
 
-The invoice id received will point to the new credit invoice itself, and the original invoice will be be credited at Svea by the specified amount. Note that the original order row status will not change, the as the request operates on the invoice, not the order in itself.
+The invoice id received will point to the new credit invoice itself, and the original invoice will be be credited at Svea by the specified amount. Note that the original order row status will not change, as the request operates on the invoice, not the order in itself.
 
 ```
 Example (cont. from 6.2.3.2):
@@ -1413,7 +1413,7 @@ Example (cont. from 6.2.3.2):
 
 ### 6.3 WebPay::getAddresses() <a name="i6-3"></a>
 
-The WebPay::getAddresses() entrypoint is used to fetch a list validated addresses associated with a given customer identity. This list can in turn be used to i.e. verify that an order delivery address matches the invoice address used by Svea for invoice and payment plan orders. Only applicable for SE, NO and DK customers. Note that in Norway, company customers only are supported.
+The WebPay::getAddresses() entrypoint is used to fetch a list of validated addresses associated with a given customer identity. This list can in turn be used to i.e. verify that an order delivery address matches the invoice address used by Svea for invoice and payment plan orders. Only applicable for SE, NO and DK customers. Note that in Norway, only company customers are supported.
 
 Get an request class instance using the WebPay::getAddresses entrypoint, then provide more information about the transaction and send the request using the
 request class methods:
